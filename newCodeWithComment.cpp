@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <fstream>
 #include<istream>
+#include<algorithm>
 using namespace std;
 
 
@@ -22,9 +23,27 @@ public:
    static int dailyTotalOnOnline;
 
    static string billFilename;
-   
+   static string monthlyFile;
 
-    void addItem(string se, int price)
+
+   // Function to get the current date as a string in YYYY-MM-DD format
+string getCurrentMonth() {
+    time_t now = time(0); // Get the current system time
+    tm *ltm = localtime(&now); // Convert time_t to a local time structure (tm)
+
+    stringstream ss; // String stream to build the formatted date string
+    ss << 1900 + ltm->tm_year << "-"; // Extract year (tm_year stores years since 1900)
+    
+    // Extract month and format with leading zero if necessary
+    ss << (ltm->tm_mon + 1 < 10 ? "0" : "") << ltm->tm_mon + 1;
+    
+    // // Extract day and format with leading zero if necessary
+    // ss << (ltm->tm_mday < 10 ? "0" : "") << ltm->tm_mday;
+
+    return ss.str(); // Return the formatted date string
+}
+
+    void addItem(string se, int price,int qu)
     {
         // Check if the item already exists
         for (int i = 0; i < itemNo; i++)
@@ -33,7 +52,7 @@ public:
             {
                 h[i] += price; // Add price to the existing item
                 total += price;
-                sIteam[i]++;
+                sIteam[i]+=qu;
                 return; // Exit after updating existing item
             }
         }
@@ -44,7 +63,7 @@ public:
             s[itemNo] = se;
             h[itemNo] = price;
             total += price;
-            sIteam[itemNo]++;
+            sIteam[itemNo]+=qu;
             itemNo++; // Increment item counter
         }
         else
@@ -53,24 +72,139 @@ public:
         }
     }
 
-    void display()
-    {
-        cout<<"----------------------------------------------------------------------------------------------------------------"<<endl;
-        cout<<"                                                    jc's hotel "<<endl;
-        cout << setw(50)<<"    Bill Summary" << endl;
-        cout<<endl;
-        for (int i = 0; i < itemNo; i++)
-        {
 
-            cout <<setw(32)<<s[i] <<"  * "<<sIteam[i] << "  - $" << h[i] << endl;
+    void display() {
+        // Print header line
+        cout << "------------------------------------------------------------------------------------------------------------------------------" << endl;
+        cout << setw(80) << "              JC's Hotel - Bill Summary" << endl;
+        cout << setw(50) << "   " << endl;  // Empty line for better spacing
+        cout << endl;
+    
+        // Display a column header for the bill summary
+        cout << left << setw(5) << "No." << setw(35) << "Item Description" << setw(20) << "Quantity" << setw(20) << "Price" << endl;
+        cout << "------------------------------------------------------------------------------------------------------------------------------" << endl;
+    
+        // Loop through each item and display details
+        for (int i = 0; i < itemNo; i++) {
+            // Ensure the array indexes (s[i], sIteam[i], h[i]) are valid
+            if (i < itemNo) {
+                cout << left << setw(5) << (i + 1)  // Item number (1-based)
+                     << setw(35) << s[i]          // Item description
+                     << setw(20) << sIteam[i]     // Item quantity
+                     << "Rs." << setw(13) << fixed << setprecision(2) << h[i] << endl; // Item price with formatting
+            }
         }
-        cout << "                                                                 Total: $" << total << endl;
-
-        cout<<"----------------------------------------------------------------------------------------------------------------"<<endl;
+    
+        // Print total cost with formatting
+        cout << "------------------------------------------------------------------------------------------------------------------------------" << endl;
+        cout << setw(60) << "Total: " << fixed << setprecision(2) <<"Rs."<< total << endl;
+    
+        // Footer line
+        cout << "------------------------------------------------------------------------------------------------------------------------------" << endl;
     }
 
+    void readLastTotalPayments(const string& billFilename, int& totalOnline, int& totalCash) {
+        ifstream file(billFilename, ios::ate); // Open file at the end
+        if (!file) {
+            cout << "Error opening file!" << endl;
+            totalOnline = 0;
+            totalCash = 0;
+            return;
+        }
+    
+        // Get file size
+        streampos fileSize = file.tellg();
+        if (fileSize == streampos(0)) { // Empty file
+            cout << "File is empty. No previous payments found." << endl;
+            totalOnline = 0;
+            totalCash = 0;
+            file.close();
+            return;
+        }
+    
+        const int bufferSize = 1024; // Read in chunks (1 KB at a time)
+        char buffer[bufferSize + 1]; 
+        buffer[bufferSize] = '\0'; // Null-terminate the buffer
+    
+        streampos pos = fileSize - static_cast<streampos>(bufferSize);
+        string lastChunk;
+        
+        while (pos >= 0) {
+            if (pos < 0) pos = 0; // Ensure valid position
+            file.seekg(pos);
+            file.read(buffer, bufferSize);
+            
+            lastChunk = string(buffer) + lastChunk; // Store the read chunk
+            
+            // Look for the last occurrences of "Total of online :-" and "Total of cash :-"
+            size_t onlinePos = lastChunk.rfind("Total of online :-");
+            size_t cashPos = lastChunk.rfind("Total of cash :-");
+    
+            if (onlinePos != string::npos && cashPos != string::npos) {
+                stringstream ssOnline(lastChunk.substr(onlinePos + 18)); // Extract number
+                ssOnline >> totalOnline;
+    
+                stringstream ssCash(lastChunk.substr(cashPos + 16)); // Extract number
+                ssCash >> totalCash;
+    
+                break; // Stop reading once we have found both totals
+            }
+    
+            pos -= bufferSize; // Move backwards
+        }
+    
+        file.close();
+    
+        if (totalOnline == 0 && totalCash == 0) {
+            cout << "No valid total payments found. Defaulting to 0." << endl;
+        } else {
+            cout << "Last recorded totals -> Online: " << totalOnline << ", Cash: " << totalCash << endl;
+        }
+    }
+    
+    void saveToMonthlyReport(int tableNumber,int mode)
+    {
+        monthlyFile = "bills_" + getCurrentMonth() + ".txt";
+
+        readLastTotalPayments(billFilename,dailyTotalOnOnline,dailyTotalOnCash);
+        readLastOrderNo();
+        // ofstream file("bills.txt", ios::app);
+        ofstream file(monthlyFile, ios::app);
+        if (!file)
+        {
+            cout << "Error opening file!" << endl;
+            return;
+        }
+        if (mode==1)
+        {
+            dailyTotalOnOnline+=total;
+        }
+        else 
+        {
+            dailyTotalOnCash+=total;
+        }
+   
+        orderNo++; 
+        file << "----------------------------------------------------------------------------------------------------------------\n";
+        file << "Table Number: " << tableNumber << "\n";
+        file << "                                                    JC's Hotel \n";
+        file <<"Order no:"<< orderNo <<setw(40) << "    Bill Summary\n\n";
+        for (int i = 0; i < itemNo; i++)
+        {
+            file << setw(32) << s[i] << "  * " << sIteam[i] << "  - Rs." << h[i] << endl;
+        }
+        file << "                                                                 Total: Rs." << total << "\n";
+        file << "----------------------------------------------------------------------------------------------------------------\n";
+        file << "Total of wallet :-"<<dailyTotalOnCash+dailyTotalOnOnline<<endl;
+        file << "Total of online :-"<<dailyTotalOnOnline<<endl;
+        file << "Total of cash :-"<<dailyTotalOnCash<<endl;
+        file <<"Order no:"<< orderNo<<endl;
+        file.close();
+    }
+   
     void saveToFile(int tableNumber,int mode)
     {
+   readLastTotalPayments(billFilename,dailyTotalOnOnline,dailyTotalOnCash);
         readLastOrderNo();
         // ofstream file("bills.txt", ios::app);
         ofstream file(billFilename, ios::app);
@@ -87,7 +221,7 @@ public:
         {
             dailyTotalOnCash+=total;
         }
-        
+   
         orderNo++; 
         file << "----------------------------------------------------------------------------------------------------------------\n";
         file << "Table Number: " << tableNumber << "\n";
@@ -95,16 +229,17 @@ public:
         file <<"Order no:"<< orderNo <<setw(40) << "    Bill Summary\n\n";
         for (int i = 0; i < itemNo; i++)
         {
-            file << setw(32) << s[i] << "  * " << sIteam[i] << "  - $" << h[i] << endl;
+            file << setw(32) << s[i] << "  * " << sIteam[i] << "  - Rs." << h[i] << endl;
         }
-        file << "                                                                 Total: $" << total << "\n";
+        file << "                                                                 Total: Rs." << total << "\n";
         file << "----------------------------------------------------------------------------------------------------------------\n";
-        file << "Total wallet is :-   "<<dailyTotalOnCash+dailyTotalOnOnline<<endl;
-        file << "Total of cash :-   "<<dailyTotalOnCash<<endl;
-        file << "Total of online :-   "<<dailyTotalOnOnline<<endl;
+        file << "Total of wallet :-"<<dailyTotalOnCash+dailyTotalOnOnline<<endl;
+        file << "Total of online :-"<<dailyTotalOnOnline<<endl;
+        file << "Total of cash :-"<<dailyTotalOnCash<<endl;
+        file <<"Order no:"<< orderNo<<endl;
         file.close();
     }
-
+    // <<"   "<< "Total of online :-"<<dailyTotalOnOnline<<"   "<<"Total of cash :-"<<dailyTotalOnCash<<"    Total wallet is :- "<<dailyTotalOnCash+dailyTotalOnOnline
     void readBills()
     {
         // ifstream file("bills.txt");
@@ -122,43 +257,80 @@ public:
         }
         file.close();
     }
+    
 
-    void readLastOrderNo()
-{
-    ifstream file(billFilename);
-    if (!file)
-    {
+void readLastOrderNo() {
+    ifstream file(billFilename, ios::ate); // Open the file and move the cursor to the end
+    if (!file) { // Check if the file was opened successfully
         cout << "No previous bills found. Starting fresh." << endl;
-        orderNo = 0;
+        orderNo = 0; // Reset order number to 0
         return;
     }
 
-    string line;
-    int lastOrder = 0;
-    while (getline(file, line))
-    {
-        if (line.find("Order no:") != string::npos)
-        {
-            // Extract order number
-            size_t pos = line.find("Order no:");
-            if (pos != string::npos)
-            {
-                stringstream ss(line.substr(pos + 9)); // Extract number from string
-                ss >> lastOrder;
+    // Get the size of the file
+    streampos fileSize = file.tellg();
+    if (fileSize == streampos(0)) { // If the file is empty
+        cout << "File is empty. Starting fresh." << endl;
+        orderNo = 0;
+        file.close();
+        return;
+    }
+
+    // Buffer to store chunks of the file
+    const int bufferSize = 1024; // Read 1 KB at a time
+    char buffer[bufferSize + 1]; // +1 for null terminator
+    buffer[bufferSize] = '\0'; // Null-terminate the buffer
+
+    // Start reading from the end of the file
+    // streampos pos = fileSize - bufferSize;
+    streampos pos = fileSize - static_cast<streampos>(bufferSize);
+
+    bool orderFound = false; // Flag to check if the order number was found
+    int lastOrder = 0; // Variable to store the last order number
+
+    while (pos >= 0) {
+        // Ensure `pos` is non-negative
+        if (pos < 0) pos = 0;  // Ensure we don't go before the start of the file
+
+        file.seekg(pos); // Move the cursor to the current position
+        file.read(buffer, bufferSize); // Read a chunk of the file
+
+        // Search for "Order no:" in the buffer
+        string chunk(buffer);
+        size_t foundPos = chunk.rfind("Order no:"); // Find the last occurrence of "Order no:"
+        if (foundPos != string::npos) {
+            // Extract the order number
+            stringstream ss(chunk.substr(foundPos + 9)); // Extract the substring after "Order no:"
+            if (ss >> lastOrder) { // Convert the substring to an integer
+                orderFound = true; // Set the flag to true
+                break; // Exit the loop
+            } else {
+                cerr << "Warning: Invalid order number format in file." << endl;
             }
         }
+
+        // Move backward in the file
+        pos -= bufferSize;
     }
-    file.close();
-    
-    orderNo = lastOrder; // Update the order number
-    cout << "Resuming from last order number: " << orderNo << endl;
+
+    file.close(); // Close the file
+
+    if (orderFound) {
+        orderNo = lastOrder; // Update the static order number
+        cout << "Resuming from last order number: " << orderNo << endl; // Print the last order number
+    } else {
+        cout << "No valid order numbers found. Starting fresh." << endl;
+        orderNo = 0; // Reset order number to 0
+    }
 }
+
 };
 
 int bill ::orderNo=0;
 int bill ::dailyTotalOnCash=0;
 int bill ::dailyTotalOnOnline=0;
 string bill ::billFilename="";
+string bill :: monthlyFile="";
 
 class Night 
 {
@@ -171,45 +343,61 @@ class Night
             // Display menu options with prices
             cout<<"\n1 : manchau soup         ::-80\n";
             cout<<"\n2 : tomato soup          ::-60\n";
-            cout<<"\n3 : veg soup             ::-30\n"; 
-            cout<<"\n4 : white souse pasta    ::-280\n";
-            cout<<"\n5 : red souse pasta      ::-300\n";
+            cout<<"\n3 : veg soup             ::-50\n"; 
+            cout<<"\n4 : white souse pasta    ::-180\n";
+            cout<<"\n5 : red souse pasta      ::-170\n";
             cout<<"\n6 : garlic bread         ::-80\n"; 
-            cout<<"\n7 : cheese garlic bread  ::-100\n";
-            cout<<"\n8 : french fries         ::-120\n";
-            cout<<"\n9 : quit\n";
+            cout<<"\n7 : cheese garlic bread  ::-95\n";
+            cout<<"\n8 : french fries         ::-90\n";
+            cout<<"\n9 : Spring Rolls (6 pcs) ::-150\n";
+            cout<<"\n10 : quit\n";
 
             int s; // Variable to store user input
             cin>>s; // Take input from user
-
             // Process user's choice using switch-case
             switch (s)
-            {
-                case 1: 
-                    e.addItem("manchau soup                                  80",80); 
+            {int qu;
+                case 1:           
+                cout<<"Enter quntuty:- ";
+                cin>>qu;
+                    e.addItem("manchau soup           80 ",80*qu,qu); 
                     break;
-                case 2: 
-                    e.addItem("tomato soup                                   60",60); 
+                case 2:          
+                cout<<"Enter quntuty:- ";
+                cin>>qu;
+                    e.addItem("tomato soup            60 ",60*qu,qu); 
                     break;  
-                case 3: 
-                    e.addItem("veg soup                                      30",30);
+                case 3:           
+                cout<<"Enter quntuty:- ";
+                cin>>qu;
+                    e.addItem("veg soup               50 ",50*qu,qu);
                     break;
-                case 4: 
-                    e.addItem("white souse pasta                             280",280);
+                case 4:         
+                cout<<"Enter quntuty:- ";
+                cin>>qu;
+                    e.addItem("white souse pasta      180",180*qu,qu);
                     break;
-                case 5:   
-                    e.addItem("red souse pasta                               300",300);
+                case 5:              
+                cout<<"Enter quntuty:- ";
+                cin>>qu;
+                    e.addItem("red souse pasta        170",170*qu,qu);
                     break;
-                case 6: 
-                    e.addItem("garlic bread                                   80",80); 
+                case 6:      
+                cout<<"Enter quntuty:- ";
+                cin>>qu;
+                    e.addItem("garlic bread           80 ",80*qu,qu); 
                     break;
-                case 7: 
-                    e.addItem("cheese garlic bread                          100",100);
+                case 7:           cout<<"Enter quntuty:- ";cin>>qu;
+                    e.addItem("cheese garlic bread    95 ",95*qu,qu);
                     break;
-                case 8:    
-                    e.addItem("french fries                                 120",120);  
+                case 8:    cout<<"Enter quntuty:- ";cin>>qu;
+                    e.addItem("french fries           90 ",90*qu,qu);  
                     break;
-                case 9: 
+                case 9:    cout<<"Enter quntuty:- ";cin>>qu;
+                    e.addItem("Spring Rolls (6 pcs)   150",150*qu,qu);  
+                    break;
+
+                case 10: 
                     return; // Exit function when user selects 'quit'
                 default:
                     cout<<"invalid choice"; // Handle invalid input
@@ -238,36 +426,35 @@ class Night
 
             int s; // Variable for user input
             cin>>s; // Take user input
-
             // Process user input
             switch (s)
-            {
-                case 1: 
-                    e.addItem("kaju masala                                    100",100);
+            {int qu;
+                case 1: cout<<"Enter quntuty:- ";cin>>qu;
+                    e.addItem("kaju masala            100",100*qu,qu);
                     break;
-                case 2: 
-                    e.addItem("kaju tava masala                               129",129);
+                case 2: cout<<"Enter quntuty:- ";cin>>qu;
+                    e.addItem("kaju tava masala       129",129*qu,qu);
                     break;  
-                case 3: 
-                    e.addItem("kaju kadai                                     119",119);
+                case 3: cout<<"Enter quntuty:- ";cin>>qu;
+                    e.addItem("kaju kadai             119",119*qu,qu);
                     break;
-                case 4: 
-                    e.addItem("paneer masala                                  189",189);
+                case 4: cout<<"Enter quntuty:- ";cin>>qu;
+                    e.addItem("paneer masala          189",189*qu,qu);
                     break;
-                case 5:    
-                    e.addItem("paneer kofta                                  199",199);
+                case 5: cout<<"Enter quntuty:- ";cin>>qu;
+                    e.addItem("paneer kofta           199",199*qu,qu);
                     break;
-                case 6: 
-                    e.addItem("chapati                                         10",10);
+                case 6: cout<<"Enter quntuty:- ";cin>>qu;
+                    e.addItem("chapati                10 ",10*qu,qu);
                     break;
-                case 7:     
-                    e.addItem("naan                                            15",15);
+                case 7: cout<<"Enter quntuty:- ";cin>>qu;
+                    e.addItem("naan                   15 ",15*qu,qu);
                     break;
-                case 8:  
-                    e.addItem("tanduri roti                                    20",20);
+                case 8: cout<<"Enter quntuty:- ";cin>>qu;
+                    e.addItem("tanduri roti           20 ",20*qu,qu);
                     break;
-                case 9: 
-                    e.addItem("papad                                            5",5);
+                case 9: cout<<"Enter quntuty:- ";cin>>qu;
+                    e.addItem("papad                  5  ",5*qu,qu);
                     break;
                 case 10: 
                     return; // Exit function when user selects 'quit'
@@ -294,26 +481,25 @@ class Night
 
             int s;
             cin>>s;
-
             switch (s)
-            {
-                case 1: 
-                    e.addItem("gulab jamun                                    30",30);
+            {int qu;
+                case 1: cout<<"Enter quntuty:- ";cin>>qu;
+                    e.addItem("gulab jamun            30 ",30*qu,qu);
                     break;
-                case 2: 
-                    e.addItem("rasgulla                                       20",20);
+                case 2: cout<<"Enter quntuty:- ";cin>>qu;
+                    e.addItem("rasgulla               20 ",20*qu,qu);
                     break;  
-                case 3: 
-                    e.addItem("ice cream                                      50",50);
+                case 3: cout<<"Enter quntuty:- ";cin>>qu;
+                    e.addItem("ice cream              50 ",50*qu,qu);
                     break;
-                case 4: 
-                    e.addItem("gajar ka halwa                                 40",40);
+                case 4: cout<<"Enter quntuty:- ";cin>>qu;
+                    e.addItem("gajar ka halwa         40 ",40*qu,qu);
                     break;
-                case 5:
-                    e.addItem("wholenul shreekhand                            90",90);
+                case 5: cout<<"Enter quntuty:- ";cin>>qu;
+                    e.addItem("wholenul shreekhand    90 ",90*qu,qu);
                     break;
-                case 6:
-                    e.addItem("chees cake                                     110",110);
+                case 6: cout<<"Enter quntuty:- ";cin>>qu;
+                    e.addItem("chees cake             110",110*qu,qu);
                     break;
                 case 7:
                     return; // Exit function
@@ -342,24 +528,24 @@ class Night
             cin>>s;
 
             switch (s)
-            {
-                case 1: 
-                    e.addItem("vanilla                                        30",30);
+            {int qu;
+                case 1: cout<<"Enter quntuty:- ";cin>>qu;
+                    e.addItem("vanilla                30 ",30*qu,qu);
                     break;
-                case 2: 
-                    e.addItem("Chocolate                                      40",40);
+                case 2: cout<<"Enter quntuty:- ";cin>>qu;
+                    e.addItem("Chocolate              40 ",40*qu,qu);
                     break;  
-                case 3: 
-                    e.addItem("Strawberry                                     50",50);
+                case 3: cout<<"Enter quntuty:- ";cin>>qu;
+                    e.addItem("Strawberry             50 ",50*qu,qu);
                     break;
-                case 4: 
-                    e.addItem("butter scotch                                  35",35);
+                case 4: cout<<"Enter quntuty:- ";cin>>qu;
+                    e.addItem("butter scotch          35 ",35*qu,qu);
                     break;
-                case 5: 
-                    e.addItem("vanila brownie                                 60",60);
+                case 5: cout<<"Enter quntuty:- ";cin>>qu;
+                    e.addItem("vanila brownie         60 ",60*qu,qu);
                     break;
-                case 6:
-                    e.addItem("rajbhog                                        55",55);
+                case 6: cout<<"Enter quntuty:- ";cin>>qu;
+                    e.addItem("rajbhog                55 ",55*qu,qu);
                     break;
                 case 7:
                     return; // Exit function
@@ -386,18 +572,18 @@ class Night
             cin>>s;
 
             switch (s)
-            {
-                case 1: 
-                    e.addItem("Pepsi                                             30",30);
+            {int qu;
+                case 1: cout<<"Enter quntuty:- ";cin>>qu;
+                    e.addItem("Pepsi                  30 ",30*qu,qu);
                     break;
-                case 2: 
-                    e.addItem("Coke                                              30",30);
+                case 2: cout<<"Enter quntuty:- ";cin>>qu;
+                    e.addItem("Coke                   30 ",30*qu,qu);
                     break;  
-                case 3: 
-                    e.addItem("Sprite                                            30",30);
+                case 3: cout<<"Enter quntuty:- ";cin>>qu;
+                    e.addItem("Sprite                 30 ",30*qu,qu);
                     break;
-                case 4: 
-                    e.addItem("Fanta                                             30",30);
+                case 4: cout<<"Enter quntuty:- ";cin>>qu;
+                    e.addItem("Fanta                  30 ",30*qu,qu);
                     break;
                 case 5: 
                     return; // Exit function
@@ -437,24 +623,23 @@ class morning
 
         int s; // Variable to store user selection
         cin >> s; // Take user input for menu selection
-        
         // Switch case to handle user selection
         switch (s)
-        {
-            case 1: e.addItem("Poha                80", 80); break;
-            case 2: e.addItem("Jalebi              60", 60); break;
-            case 3: e.addItem("Gathiya             30", 30); break;
-            case 4: e.addItem("Maskaban           280", 280); break;
-            case 5: e.addItem("Upma               300", 300); break;
-            case 6: e.addItem("Idli                50", 50); break; // Mismatch in price in original code
-            case 7: e.addItem("Podi Idli           70", 70); break;
-            case 8: e.addItem("Khaman              40", 40); break;
-            case 9: e.addItem("Tea                 40", 40); break;
-            case 10: e.addItem("Sp. Tea             40", 40); break;
-            case 11: e.addItem("Coffee              40", 40); break;
-            case 12: e.addItem("Turkish Coffee      40", 40); break;
-            case 13: e.addItem("Filter Coffee       40", 40); break;
-            case 14: e.addItem("Milk                40", 40); break;
+        {int qu;
+            case 1:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Poha                   80 ", 80*qu,qu); break;
+            case 2:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Jalebi                 60 ", 60*qu,qu); break;
+            case 3:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Gathiya                30 ", 30*qu,qu); break;
+            case 4:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Maskaban               280", 280*qu,qu); break;
+            case 5:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Upma                   300", 300*qu,qu); break;
+            case 6:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Idli                   50 ", 50*qu,qu); break; // Mismatch in price in original code
+            case 7:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Podi Idli              70 ", 70*qu,qu); break;
+            case 8:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Khaman                 40 ", 40*qu,qu);break;
+            case 9:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Tea                    40 ", 40*qu,qu); break;
+            case 10:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Sp. Tea                40 ", 40*qu,qu); break;
+            case 11:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Coffee                 40 ", 40*qu,qu); break;
+            case 12:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Turkish Coffee         40 ", 40*qu,qu); break;
+            case 13:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Filter Coffee          40 ", 40*qu,qu); break;
+            case 14:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Milk                   40 ", 40*qu,qu); break;
             case 15: w = 1; break; // Set flag to exit
             default: cout << "Invalid choice\n"; break;
         }
@@ -492,16 +677,16 @@ void gujarati(bill &e) // Method for Gujarati food menu
         cin >> forSwitch;  // Take user input
         system("CLS");
         switch (forSwitch) // Handle user selection
-        {
-            case 1: e.addItem("Bharela-Ringan Bateka  80", 80); break;
-            case 2: e.addItem("Lasaniya Bateta        60", 60); break;
-            case 3: e.addItem("Suki Bhaji             30", 30); break;
-            case 4: e.addItem("Sev-Tameta            280", 280); break;
-            case 5: e.addItem("Akhi Dungali          300", 300); break;
-            case 6: e.addItem("Undhiyu                50", 50); break;
-            case 7: e.addItem("Umbadiyu               70", 70); break;
-            case 8: e.addItem("Dal-Dhokli             40", 40); break;
-            case 9: e.addItem("Vagharello-Rotlo       40", 40); break;
+        { int qu;
+            case 1:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Bharela-Ringan Bateka  80 ", 80*qu,qu); break;
+            case 2:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Lasaniya Bateta        60 ", 60*qu,qu); break;
+            case 3:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Suki Bhaji             30 ", 30*qu,qu); break;
+            case 4:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Sev-Tameta             280", 280*qu,qu); break;
+            case 5:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Akhi Dungali           300", 300*qu,qu); break;
+            case 6:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Undhiyu                50 ", 50*qu,qu); break;
+            case 7:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Umbadiyu               70 ", 70*qu,qu); break;
+            case 8:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Dal-Dhokli             40 ", 40*qu,qu); break;
+            case 9:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Vagharello-Rotlo       40 ", 40*qu,qu); break;
             case 10: return; // Exit function
             default: cout << "Invalid choice\n"; break;
         }
@@ -529,16 +714,16 @@ void punjabi(bill &e) // Method for Punjabi food menu
         cin >> forSwitch; // Take user input
         system("CLS");
         switch (forSwitch) // Handle user selection
-        {
-            case 1: e.addItem("Kaju Masala        100", 100); break;
-            case 2: e.addItem("Kaju Tava Masala   129", 129); break;
-            case 3: e.addItem("Kaju Kadai        119", 119); break;
-            case 4: e.addItem("Paneer Masala     189", 189); break;
-            case 5: e.addItem("Paneer Kofta      199", 199); break;
-            case 6: e.addItem("Chapati           10", 10); break;
-            case 7: e.addItem("Naan              15", 15); break;
-            case 8: e.addItem("Tandoori Roti     20", 20); break;
-            case 9: e.addItem("Papad             5", 5); break;
+        {int qu;
+            case 1:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Kaju Masala            100", 100*qu,qu); break;
+            case 2:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Kaju Tava Masala       129", 129*qu,qu); break;
+            case 3:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Kaju Kadai             119", 119*qu,qu); break;
+            case 4:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Paneer Masala          189", 189*qu,qu); break;
+            case 5:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Paneer Kofta           199", 199*qu,qu); break;
+            case 6:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Chapati                10 ", 10*qu,qu); break;
+            case 7:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Naan                   15 ", 15*qu,qu); break;
+            case 8:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Tandoori Roti          20 ", 20*qu,qu); break;
+            case 9:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Papad                  5  ", 5*qu,qu); break;
             case 10: return; // Exit function
             default: cout << "Invalid choice\n"; break;
         }
@@ -563,30 +748,30 @@ void punjabi(bill &e) // Method for Punjabi food menu
                  cin>>forSwitch;
                  system("CLS");
                  switch (forSwitch)
-                 {
-                     case 1: 
-                     e.addItem("Fulka Roti                                  80",80);
+                 {  int qu;
+                     case 1:  cout<<"Enter quntuty:- ";cin>>qu;
+                     e.addItem("Fulka Roti             80 ",80,qu);
                          break;
-                     case 2: 
-                     e.addItem("Chapati                                    60",60);
+                     case 2:  cout<<"Enter quntuty:- ";cin>>qu;
+                     e.addItem("Chapati                60 ",60,qu);
                          break;  
-                     case 3: 
-                     e.addItem("BUtter Chapati                                     30",30);
+                     case 3:  cout<<"Enter quntuty:- ";cin>>qu;
+                     e.addItem("BUtter Chapati         30 ",30,qu);
                          break;
-                     case 4: 
-                     e.addItem("Naan                             280",280);
+                     case 4:  cout<<"Enter quntuty:- ";cin>>qu;
+                     e.addItem("Naan                   280",280,qu);
                          break;
-                     case 5:   
-                     e.addItem("Butter Naan                              300",300);
+                     case 5:    cout<<"Enter quntuty:- ";cin>>qu;
+                     e.addItem("Butter Naan            300",300,qu);
                          break;
-                     case 6: 
-                     e.addItem("Tandoori                                  50",50);
+                     case 6:  cout<<"Enter quntuty:- ";cin>>qu;
+                     e.addItem("Tandoori               50 ",50,qu);
                          break;
-                     case 7: 
-                     e.addItem(" Butter Tandoori                            70",70);
+                     case 7:  cout<<"Enter quntuty:- ";cin>>qu;
+                     e.addItem("Butter Tandoori        70 ",70,qu);
                          break;
-                     case 8:    
-                     e.addItem("Roomali                                   40",40); 
+                     case 8:     cout<<"Enter quntuty:- ";cin>>qu;
+                     e.addItem("Roomali                40 ",40,qu);
                          break;
                      case 9: w=1;
                          break;
@@ -599,10 +784,6 @@ void punjabi(bill &e) // Method for Punjabi food menu
                     }
                 }
          }
-
-
-        
-
 };
 
 
@@ -610,7 +791,7 @@ void noon(){
    Noon k[11];
     bill b[11];
 
-    int table[11];
+    int table[11]={0};
  int choicInputManu;
  int choic;
  int bi=0;
@@ -662,12 +843,12 @@ void noon(){
                 system("CLS");
                 }
 
-                int forManuSelection;
+                int forManuSelection;    int qu;
                 cout << "\n1 : Gujarati\n";
                 cout << "\n2 : Punjabi\n";
                 cout << "\n3 : Roti\n";
-                cout << "\n4 : Gujarati Thali       :: 120rs \n";
-                cout << "\n5 : Punjabi Thali        :: 160rs\n";
+                cout << "\n4 : Gujarati Thali       :: 200rs \n";
+                cout << "\n5 : Punjabi Thali        :: 250rs\n";
                 cout << "\n6 : Quit\n";
                 cin>>forManuSelection;
                 switch (forManuSelection)
@@ -685,12 +866,16 @@ void noon(){
                 EXIt=2;
                     break;
                 case 4:
-                b[choic].addItem("Gujarati Thali", 200);
+                cout<<"Enter quntuty:- ";
+                cin>>qu;
+                b[choic].addItem("Gujarati Thali         200", 200*qu,qu);
                 EXIt=2;
                     break;
     
                 case 5:
-                b[choic].addItem("Punjabi Thali", 200);
+                cout<<"Enter quntuty:- ";
+                cin>>qu;
+                b[choic].addItem("Punjabi Thali          250", 250*qu,qu);
                 EXIt=2;
                     break;
     
@@ -745,6 +930,7 @@ void noon(){
             system("CLS");
             b[choic].display();
             b[choic].saveToFile(choic,ch);
+            b[choic].saveToMonthlyReport(choic,ch);
 
 
             for (int  i = 1; i <= 10; i++)
@@ -809,7 +995,7 @@ void mornin()
     morning g[11]; // Array to store morning menu items for each table
     bill b[11];    // Array to store the bill for each table
 
-    int table[11]; // Array to track table availability (0 = free, 1 = occupied)
+    int table[11]={0}; // Array to track table availability (0 = free, 1 = occupied)
     int choicInputManu;    // User's menu choice
     int choic;     // User input for table number
     int bi = 0;    // Flag to check if any table is occupied
@@ -896,6 +1082,7 @@ void mornin()
 
                 b[choic].display(); // Display the bill
                 b[choic].saveToFile(choic, ch); // Save the bill details
+                b[choic].saveToMonthlyReport(choic,ch);
 
                 for (int i = 1; i <= 10; i++)
                 {
@@ -937,7 +1124,7 @@ void night()
     Night i[11]; // Array to store night menu items
     bill b[11];  // Array to store bill for each table
 
-    int table[11]; // Table tracking array
+    int table[11]={0}; // Table tracking array
     int choicInputManu;    // User's menu choice
     int choic;     // User's table number choice
     int bi = 0;    // Flag for occupied tables
@@ -1064,10 +1251,11 @@ void night()
                 int ch;
                 cin >> ch;
 
-
+                system("CLS");
                 b[choic].display();
                 b[choic].saveToFile(choic, ch);
-                system("CLS");
+                b[choic].saveToMonthlyReport(choic,ch);
+                
             }
             break;
 
@@ -1085,7 +1273,7 @@ void night()
             case 1:
                 exit(0);
             case 2:
-                cout << "Okayyy!!" << endl;
+                cout << "Okay!!" << endl;
                 continue;
             }
             break;
@@ -1114,6 +1302,7 @@ string getCurrentDate() {
 
     return ss.str(); // Return the formatted date string
 }
+
 
 // Function to initialize the billing system and set up the billing file for the current date
 void startUp() {
@@ -1185,3 +1374,6 @@ startUp();
 
     return 0;
 }
+
+
+
