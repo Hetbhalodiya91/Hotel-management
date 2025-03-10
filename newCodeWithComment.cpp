@@ -191,7 +191,7 @@ string getCurrentMonth() {
         file <<"Order no:"<< orderNo <<setw(40) << "    Bill Summary\n\n";
         for (int i = 0; i < itemNo; i++)
         {
-            file << setw(32) << s[i] << "  * " << sIteam[i] << "  - Rs." << h[i] << endl;
+            file << setw(32) <<i+1<<" "<< s[i] << "  * " << sIteam[i] << "  - Rs." << h[i] << endl;
         }
         file << "                                                                 Total: Rs." << total << "\n";
         file << "----------------------------------------------------------------------------------------------------------------\n";
@@ -229,7 +229,7 @@ string getCurrentMonth() {
         file <<"Order no:"<< orderNo <<setw(40) << "    Bill Summary\n\n";
         for (int i = 0; i < itemNo; i++)
         {
-            file << setw(32) << s[i] << "  * " << sIteam[i] << "  - Rs." << h[i] << endl;
+            file << setw(32)<<i+1<<" "<< s[i] << "  * " << sIteam[i] << "  - Rs." << h[i] << endl;
         }
         file << "                                                                 Total: Rs." << total << "\n";
         file << "----------------------------------------------------------------------------------------------------------------\n";
@@ -698,7 +698,7 @@ void punjabi(bill &e) // Method for Punjabi food menu
     int w = 0;
     while (true)
     {
-        // Displaying Punjabi menu
+        // Displaying Punjabi sabji menu
         cout << "\n1 : Kaju Masala          ::-100\n";
         cout << "\n2 : Kaju Tava Masala     ::-129\n";
         cout << "\n3 : Kaju Kadai           ::-119\n";
