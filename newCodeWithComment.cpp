@@ -341,16 +341,16 @@ class Night
         while(1) // Infinite loop until user chooses to quit
         {
             // Display menu options with prices
-            cout<<"\n1 : manchau soup         ::-80\n";
-            cout<<"\n2 : tomato soup          ::-60\n";
-            cout<<"\n3 : veg soup             ::-50\n"; 
-            cout<<"\n4 : white souse pasta    ::-180\n";
-            cout<<"\n5 : red souse pasta      ::-170\n";
-            cout<<"\n6 : garlic bread         ::-80\n"; 
-            cout<<"\n7 : cheese garlic bread  ::-95\n";
-            cout<<"\n8 : french fries         ::-90\n";
-            cout<<"\n9 : Spring Rolls (6 pcs) ::-150\n";
-            cout<<"\n10 : quit\n";
+            cout<<setw(60)<<"\n1 : manchau soup         ::-80\n";
+            cout<<setw(60)<<"\n2 : tomato soup          ::-60\n";
+            cout<<setw(60)<<"\n3 : veg soup             ::-50\n"; 
+            cout<<setw(60)<<"\n4 : white souse pasta    ::-180\n";
+            cout<<setw(60)<<"\n5 : red souse pasta      ::-170\n";
+            cout<<setw(60)<<"\n6 : garlic bread         ::-80\n"; 
+            cout<<setw(60)<<"\n7 : cheese garlic bread  ::-95\n";
+            cout<<setw(60)<<"\n8 : french fries         ::-90\n";
+            cout<<setw(60)<<"\n9 : Spring Rolls (6 pcs) ::-150\n";
+            cout<<setw(60)<<"\n10 : quit\n";
 
             int s; // Variable to store user input
             cin>>s; // Take input from user
@@ -358,42 +358,42 @@ class Night
             switch (s)
             {int qu;
                 case 1:           
-                cout<<"Enter quntuty:- ";
+                cout<<setw(60)<<"Enter quntuty:- ";
                 cin>>qu;
                     e.addItem("manchau soup           80 ",80*qu,qu); 
                     break;
                 case 2:          
-                cout<<"Enter quntuty:- ";
+                cout<<setw(60)<<"Enter quntuty:- ";
                 cin>>qu;
                     e.addItem("tomato soup            60 ",60*qu,qu); 
                     break;  
                 case 3:           
-                cout<<"Enter quntuty:- ";
+                cout<<setw(60)<<"Enter quntuty:- ";
                 cin>>qu;
                     e.addItem("veg soup               50 ",50*qu,qu);
                     break;
                 case 4:         
-                cout<<"Enter quntuty:- ";
+                cout<<setw(60)<<"Enter quntuty:- ";
                 cin>>qu;
                     e.addItem("white souse pasta      180",180*qu,qu);
                     break;
                 case 5:              
-                cout<<"Enter quntuty:- ";
+                cout<<setw(60)<<"Enter quntuty:- ";
                 cin>>qu;
                     e.addItem("red souse pasta        170",170*qu,qu);
                     break;
                 case 6:      
-                cout<<"Enter quntuty:- ";
+                cout<<setw(60)<<"Enter quntuty:- ";
                 cin>>qu;
                     e.addItem("garlic bread           80 ",80*qu,qu); 
                     break;
-                case 7:           cout<<"Enter quntuty:- ";cin>>qu;
+                case 7:           cout<<setw(60)<<"Enter quntuty:- ";cin>>qu;
                     e.addItem("cheese garlic bread    95 ",95*qu,qu);
                     break;
-                case 8:    cout<<"Enter quntuty:- ";cin>>qu;
+                case 8:    cout<<setw(60)<<"Enter quntuty:- ";cin>>qu;
                     e.addItem("french fries           90 ",90*qu,qu);  
                     break;
-                case 9:    cout<<"Enter quntuty:- ";cin>>qu;
+                case 9:    cout<<setw(60)<<"Enter quntuty:- ";cin>>qu;
                     e.addItem("Spring Rolls (6 pcs)   150",150*qu,qu);  
                     break;
 
@@ -1134,10 +1134,10 @@ void night()
         int EXIt = 0;
         cout << "Welcome to JC's Hotel" << endl;
 
-        cout << "1. Take order" << endl;
-        cout << "2. Bill" << endl;
-        cout << "3. Back to timing" << endl;
-        cout << "4. EXIT" << endl;
+        cout <<setw(60)<< "1. Take order" << endl;
+        cout <<setw(60)<< "2. Bill" << endl;
+        cout <<setw(60)<< "3. Back to timing" << endl;
+        cout <<setw(60)<< "4. EXIT" << endl;
         cin >> choicInputManu;
         system("CLS");
         switch (choicInputManu)
