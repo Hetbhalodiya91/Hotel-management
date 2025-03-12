@@ -341,15 +341,15 @@ class Night
         while(1) // Infinite loop until user chooses to quit
         {
             // Display menu options with prices
-            cout<<"\n1 : manchau soup         ::-80\n";
-            cout<<"\n2 : tomato soup          ::-60\n";
-            cout<<"\n3 : veg soup             ::-50\n"; 
-            cout<<"\n4 : white souse pasta    ::-180\n";
-            cout<<"\n5 : red souse pasta      ::-170\n";
-            cout<<"\n6 : garlic bread         ::-80\n"; 
-            cout<<"\n7 : cheese garlic bread  ::-95\n";
-            cout<<"\n8 : french fries         ::-90\n";
-            cout<<"\n9 : Spring Rolls (6 pcs) ::-150\n";
+            cout<<"\n1 : manchau soup         -> 80\n";
+            cout<<"\n2 : tomato soup          -> 60\n";
+            cout<<"\n3 : veg soup             -> 50\n"; 
+            cout<<"\n4 : white souse pasta    -> 180\n";
+            cout<<"\n5 : red souse pasta      -> 170\n";
+            cout<<"\n6 : garlic bread         -> 80\n"; 
+            cout<<"\n7 : cheese garlic bread  -> 95\n";
+            cout<<"\n8 : french fries         -> 90\n";
+            cout<<"\n9 : Spring Rolls (6 pcs) -> 150\n";
             cout<<"\n10 : quit\n";
 
             int s; // Variable to store user input
@@ -358,42 +358,42 @@ class Night
             switch (s)
             {int qu;
                 case 1:           
-                cout<<"Enter quntuty:- ";
+                cout<<"Enter quantity:- ";
                 cin>>qu;
                     e.addItem("manchau soup           80 ",80*qu,qu); 
                     break;
                 case 2:          
-                cout<<"Enter quntuty:- ";
+                cout<<"Enter quantity:- ";
                 cin>>qu;
                     e.addItem("tomato soup            60 ",60*qu,qu); 
                     break;  
                 case 3:           
-                cout<<"Enter quntuty:- ";
+                cout<<"Enter quantity:- ";
                 cin>>qu;
                     e.addItem("veg soup               50 ",50*qu,qu);
                     break;
                 case 4:         
-                cout<<"Enter quntuty:- ";
+                cout<<"Enter quantity:- ";
                 cin>>qu;
                     e.addItem("white souse pasta      180",180*qu,qu);
                     break;
                 case 5:              
-                cout<<"Enter quntuty:- ";
+                cout<<"Enter quantity:- ";
                 cin>>qu;
                     e.addItem("red souse pasta        170",170*qu,qu);
                     break;
                 case 6:      
-                cout<<"Enter quntuty:- ";
+                cout<<"Enter quantity:- ";
                 cin>>qu;
                     e.addItem("garlic bread           80 ",80*qu,qu); 
                     break;
-                case 7:           cout<<"Enter quntuty:- ";cin>>qu;
+                case 7:           cout<<"Enter quantity:- ";cin>>qu;
                     e.addItem("cheese garlic bread    95 ",95*qu,qu);
                     break;
-                case 8:    cout<<"Enter quntuty:- ";cin>>qu;
+                case 8:    cout<<"Enter quantity:- ";cin>>qu;
                     e.addItem("french fries           90 ",90*qu,qu);  
                     break;
-                case 9:    cout<<"Enter quntuty:- ";cin>>qu;
+                case 9:    cout<<"Enter quantity:- ";cin>>qu;
                     e.addItem("Spring Rolls (6 pcs)   150",150*qu,qu);  
                     break;
 
@@ -413,50 +413,48 @@ class Night
         while(1) // Infinite loop until user chooses to quit
         {
             // Display menu options
-            cout<<"\n1 : kaju masala          ::-100\n";
-            cout<<"\n2 : kaju tava masala     ::-129\n";
-            cout<<"\n3 : kaju kadai           ::-119\n";
-            cout<<"\n4 : paneer masala        ::-189\n";
-            cout<<"\n5 : paneer kofta         ::-199\n";
-            cout<<"\n6 : chapati              ::-10\n";
-            cout<<"\n7 : naan                 ::-15\n";
-            cout<<"\n8 : tanduri roti         ::-20\n";
-            cout<<"\n9 : papad                ::-5 \n";
-            cout<<"\n10 : quit\n";
+            cout<<"\n1 : kaju masala          -> 100\n";
+            cout<<"\n2 : kaju tava masala     -> 129\n";
+            cout<<"\n3 : kaju kadai           -> 119\n";
+            cout<<"\n4 : paneer masala        -> 189\n";
+            cout<<"\n5 : paneer kofta         -> 199\n";
+            cout<<"\n\n Roti : \n\n";
+            cout<<"\n6 : chapati              -> 20\n";
+            cout<<"\n7 : naan                 -> 45\n";
+            cout<<"\n8 : tanduri roti         -> 25\n";
+            cout<<"\n9 : Butter naan          -> 50\n";
+            cout<<"\n10: papad                -> 20\n";
+            cout<<"\n11: Masala Papad         -> 50\n";
+            cout<<"\n12: quit\n";
 
             int s; // Variable for user input
             cin>>s; // Take user input
             // Process user input
             switch (s)
             {int qu;
-                case 1: cout<<"Enter quntuty:- ";cin>>qu;
-                    e.addItem("kaju masala            100",100*qu,qu);
+                case 1: cout<<"Enter quantity:- ";cin>>qu;e.addItem("kaju masala            100",100*qu,qu);
                     break;
-                case 2: cout<<"Enter quntuty:- ";cin>>qu;
-                    e.addItem("kaju tava masala       129",129*qu,qu);
+                case 2: cout<<"Enter quantity:- ";cin>>qu;e.addItem("kaju tava masala       129",129*qu,qu);
                     break;  
-                case 3: cout<<"Enter quntuty:- ";cin>>qu;
-                    e.addItem("kaju kadai             119",119*qu,qu);
+                case 3: cout<<"Enter quantity:- ";cin>>qu;e.addItem("kaju kadai             119",119*qu,qu);
                     break;
-                case 4: cout<<"Enter quntuty:- ";cin>>qu;
-                    e.addItem("paneer masala          189",189*qu,qu);
+                case 4: cout<<"Enter quantity:- ";cin>>qu;e.addItem("paneer masala          189",189*qu,qu);
                     break;
-                case 5: cout<<"Enter quntuty:- ";cin>>qu;
-                    e.addItem("paneer kofta           199",199*qu,qu);
+                case 5: cout<<"Enter quantity:- ";cin>>qu;e.addItem("paneer kofta           199",199*qu,qu);
                     break;
-                case 6: cout<<"Enter quntuty:- ";cin>>qu;
-                    e.addItem("chapati                10 ",10*qu,qu);
+                case 6: cout<<"Enter quantity:- ";cin>>qu;e.addItem("chapati                20 ",20*qu,qu);
                     break;
-                case 7: cout<<"Enter quntuty:- ";cin>>qu;
-                    e.addItem("naan                   15 ",15*qu,qu);
+                case 7: cout<<"Enter quantity:- ";cin>>qu;e.addItem("naan                   45 ",45*qu,qu);
                     break;
-                case 8: cout<<"Enter quntuty:- ";cin>>qu;
-                    e.addItem("tanduri roti           20 ",20*qu,qu);
+                case 8: cout<<"Enter quantity:- ";cin>>qu;e.addItem("tanduri roti           25 ",25*qu,qu);
                     break;
-                case 9: cout<<"Enter quntuty:- ";cin>>qu;
-                    e.addItem("papad                  5  ",5*qu,qu);
+                case 9: cout<<"Enter quantity:- ";cin>>qu;e.addItem("Butter naan            50 ",50*qu,qu);
                     break;
-                case 10: 
+                case 10: cout<<"Enter quantity:- ";cin>>qu;e.addItem("papad                 20 ",20*qu,qu);
+                    break;
+                case 11: cout<<"Enter quantity:- ";cin>>qu;e.addItem("Masala Papad          50 ",50*qu,qu);
+                    break;
+                case 12: 
                     return; // Exit function when user selects 'quit'
                 default:
                     cout<<"invalid choice";
@@ -471,37 +469,41 @@ class Night
     {
         while (1) // Infinite loop until user chooses to quit
         {
-            cout<<"\n1 : gulab jamun          ::-30\n";
-            cout<<"\n2 : rasgulla             ::-20\n";
-            cout<<"\n3 : ice cream            ::-50\n";
-            cout<<"\n4 : gajar ka halwa       ::-40\n";
-            cout<<"\n5 : wholenul shreekhand  ::-90\n";
-            cout<<"\n6 : chees cake           ::-110\n";
-            cout<<"\n7 : quit\n";
+            cout<<"\n1 : gulab jamun          -> 30\n";
+            cout<<"\n2 : rasgulla             -> 35\n";
+            cout<<"\n4 : Chocolate Brownie    -> 90\n";
+            cout<<"\n4 : gajar ka halwa       -> 45\n";
+            cout<<"\n5 : wholenul shreekhand  -> 90\n";
+            cout<<"\n6 : chees cake           -> 110\n";
+            cout<<"\n7 : Waffles              -> 140\n";
+            cout<<"\n8 : quit\n";
 
             int s;
             cin>>s;
             switch (s)
             {int qu;
-                case 1: cout<<"Enter quntuty:- ";cin>>qu;
+                case 1: cout<<"Enter quantity:- ";cin>>qu;
                     e.addItem("gulab jamun            30 ",30*qu,qu);
                     break;
-                case 2: cout<<"Enter quntuty:- ";cin>>qu;
-                    e.addItem("rasgulla               20 ",20*qu,qu);
+                case 2: cout<<"Enter quantity:- ";cin>>qu;
+                    e.addItem("rasgulla               35 ",35*qu,qu);
                     break;  
-                case 3: cout<<"Enter quntuty:- ";cin>>qu;
-                    e.addItem("ice cream              50 ",50*qu,qu);
+                case 3: cout<<"Enter quantity:- ";cin>>qu;
+                    e.addItem("Chocolate Brownie      90 ",50*qu,qu);
                     break;
-                case 4: cout<<"Enter quntuty:- ";cin>>qu;
-                    e.addItem("gajar ka halwa         40 ",40*qu,qu);
+                case 4: cout<<"Enter quantity:- ";cin>>qu;
+                    e.addItem("gajar ka halwa         45 ",45*qu,qu);
                     break;
-                case 5: cout<<"Enter quntuty:- ";cin>>qu;
+                case 5: cout<<"Enter quantity:- ";cin>>qu;
                     e.addItem("wholenul shreekhand    90 ",90*qu,qu);
                     break;
-                case 6: cout<<"Enter quntuty:- ";cin>>qu;
+                case 6: cout<<"Enter quantity:- ";cin>>qu;
                     e.addItem("chees cake             110",110*qu,qu);
                     break;
-                case 7:
+                case 7: cout<<"Enter quantity:- ";cin>>qu;
+                    e.addItem("Waffles                140",110*qu,qu);
+                    break;
+                case 8:
                     return; // Exit function
                 default:
                     cout<<"invalid choice";
@@ -516,38 +518,50 @@ class Night
     {
         while(1)
         {
-            cout<<"\n1 : vanilla              ::-30\n";
-            cout<<"\n2 : chocolate            ::-40\n";
-            cout<<"\n3 : strawberry           ::-50\n";
-            cout<<"\n4 : butter scotch        ::-35\n";
-            cout<<"\n5 : vanila brownie       ::-60\n";
-            cout<<"\n6 : rajbhog              ::-55\n";
-            cout<<"\n7 : quit\n";
+            cout<<"\n1 : vanilla              -> 30\n";
+            cout<<"\n2 : chocolate            -> 40\n";
+            cout<<"\n3 : strawberry           -> 50\n";
+            cout<<"\n4 : butter scotch        -> 35\n";
+            cout<<"\n5 : vanila brownie       -> 60\n";
+            cout<<"\n6 : Cookies & cream      -> 70\n";
+            cout<<"\n7 : Butter pecan         -> 70\n";
+            cout<<"\n8 : Mango                -> 55\n";
+            cout<<"\n9 : rajbhog              -> 55\n";
+            cout<<"\n10 : quit\n";
 
             int s;
             cin>>s;
 
             switch (s)
             {int qu;
-                case 1: cout<<"Enter quntuty:- ";cin>>qu;
+                case 1: cout<<"Enter quantity:- ";cin>>qu;
                     e.addItem("vanilla                30 ",30*qu,qu);
                     break;
-                case 2: cout<<"Enter quntuty:- ";cin>>qu;
+                case 2: cout<<"Enter quantity:- ";cin>>qu;
                     e.addItem("Chocolate              40 ",40*qu,qu);
                     break;  
-                case 3: cout<<"Enter quntuty:- ";cin>>qu;
+                case 3: cout<<"Enter quantity:- ";cin>>qu;
                     e.addItem("Strawberry             50 ",50*qu,qu);
                     break;
-                case 4: cout<<"Enter quntuty:- ";cin>>qu;
+                case 4: cout<<"Enter quantity:- ";cin>>qu;
                     e.addItem("butter scotch          35 ",35*qu,qu);
                     break;
-                case 5: cout<<"Enter quntuty:- ";cin>>qu;
+                case 5: cout<<"Enter quantity:- ";cin>>qu;
                     e.addItem("vanila brownie         60 ",60*qu,qu);
                     break;
-                case 6: cout<<"Enter quntuty:- ";cin>>qu;
+                case 6: cout<<"Enter quantity:- ";cin>>qu;
+                    e.addItem("Cookies & cream        70 ",70*qu,qu);
+                    break;
+                case 7: cout<<"Enter quantity:- ";cin>>qu;
+                    e.addItem("Butter pecan           70 ",70*qu,qu);
+                    break;
+                case 8: cout<<"Enter quantity:- ";cin>>qu;
+                    e.addItem("Mango                  55 ",55*qu,qu);
+                    break;
+                case 9: cout<<"Enter quantity:- ";cin>>qu;
                     e.addItem("rajbhog                55 ",55*qu,qu);
                     break;
-                case 7:
+                case 10:
                     return; // Exit function
                 default:
                     cout<<"invalid choice";
@@ -562,30 +576,34 @@ class Night
     {
         while(1)
         {
-            cout<<"\n1 : pepsi                :-> 30\n";
-            cout<<"\n2 : coke                 :-> 30\n";
-            cout<<"\n3 : sprite               :-> 30\n";
-            cout<<"\n4 : fanta                :-> 30\n";
-            cout<<"\n5 : quit\n";
+            cout<<"\n1 : pepsi                 -> 30\n";
+            cout<<"\n2 : coke                  -> 30\n";
+            cout<<"\n3 : sprite                -> 30\n";
+            cout<<"\n4 : fanta                 -> 30\n";
+            cout<<"\n5 : Sweet Lassi           -> 40\n";
+            cout<<"\n6 : quit\n";
 
             int s;
             cin>>s;
 
             switch (s)
             {int qu;
-                case 1: cout<<"Enter quntuty:- ";cin>>qu;
+                case 1: cout<<"Enter quantity:- ";cin>>qu;
                     e.addItem("Pepsi                  30 ",30*qu,qu);
                     break;
-                case 2: cout<<"Enter quntuty:- ";cin>>qu;
+                case 2: cout<<"Enter quantity:- ";cin>>qu;
                     e.addItem("Coke                   30 ",30*qu,qu);
                     break;  
-                case 3: cout<<"Enter quntuty:- ";cin>>qu;
+                case 3: cout<<"Enter quantity:- ";cin>>qu;
                     e.addItem("Sprite                 30 ",30*qu,qu);
                     break;
-                case 4: cout<<"Enter quntuty:- ";cin>>qu;
+                case 4: cout<<"Enter quantity:- ";cin>>qu;
                     e.addItem("Fanta                  30 ",30*qu,qu);
                     break;
-                case 5: 
+                case 5: cout<<"Enter quantity:- ";cin>>qu;
+                    e.addItem("Sweet Lassi            40 ",40*qu,qu);
+                    break;
+                case 6: 
                     return; // Exit function
                 default:
                     cout<<"invalid choice";
@@ -605,20 +623,20 @@ class morning
     while (true) // Infinite loop until user chooses to quit
     {
         // Displaying the morning menu with item names and prices
-        cout << "\n1 : Poha                 ::-80\n";
-        cout << "\n2 : Jalebi               ::-60\n";
-        cout << "\n3 : Gathiya              ::-30\n"; 
-        cout << "\n4 : Maskaban             ::-280\n";
-        cout << "\n5 : Upma                 ::-300\n";
-        cout << "\n6 : Idli                 ::-80\n"; 
-        cout << "\n7 : Podi idli            ::-100\n";
-        cout << "\n8 : Khaman               ::-120\n";
-        cout << "\n9 : Chai                 ::-120\n";
-        cout << "\n10 : Sp. Chai            ::-120\n";
-        cout << "\n11 : Coffee              ::-120\n";
-        cout << "\n12 : Turkish Coffee      ::-120\n";
-        cout << "\n13 : Filter Coffee       ::-120\n";
-        cout << "\n14 : Milk                ::-120\n";
+        cout << "\n1 : Poha                 -> 60\n";
+        cout << "\n2 : Jalebi               -> 60\n";
+        cout << "\n3 : Gathiya              -> 30\n"; 
+        cout << "\n4 : Maskaban             -> 50\n";
+        cout << "\n5 : Upma                 -> 100\n";
+        cout << "\n6 : Idli                 -> 80\n"; 
+        cout << "\n7 : Podi idli            -> 100\n";
+        cout << "\n8 : Khaman               -> 90\n";
+        cout << "\n9 : Tea                  -> 50\n";
+        cout << "\n10 : Sp. Tea             -> 70\n";
+        cout << "\n11 : Coffee              -> 90\n";
+        cout << "\n12 : Turkish Coffee      -> 80\n";
+        cout << "\n13 : Filter Coffee       -> 100\n";
+        cout << "\n14 : Milk                -> 40\n";
         cout << "\n15 : Quit\n";  // Option to exit
 
         int s; // Variable to store user selection
@@ -626,20 +644,20 @@ class morning
         // Switch case to handle user selection
         switch (s)
         {int qu;
-            case 1:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Poha                   80 ", 80*qu,qu); break;
-            case 2:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Jalebi                 60 ", 60*qu,qu); break;
-            case 3:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Gathiya                30 ", 30*qu,qu); break;
-            case 4:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Maskaban               280", 280*qu,qu); break;
-            case 5:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Upma                   300", 300*qu,qu); break;
-            case 6:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Idli                   50 ", 50*qu,qu); break; // Mismatch in price in original code
-            case 7:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Podi Idli              70 ", 70*qu,qu); break;
-            case 8:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Khaman                 40 ", 40*qu,qu);break;
-            case 9:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Tea                    40 ", 40*qu,qu); break;
-            case 10:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Sp. Tea                40 ", 40*qu,qu); break;
-            case 11:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Coffee                 40 ", 40*qu,qu); break;
-            case 12:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Turkish Coffee         40 ", 40*qu,qu); break;
-            case 13:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Filter Coffee          40 ", 40*qu,qu); break;
-            case 14:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Milk                   40 ", 40*qu,qu); break;
+            case 1:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Poha                   60 ", 60*qu,qu); break;
+            case 2:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Jalebi                 60 ", 60*qu,qu); break;
+            case 3:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Gathiya                30 ", 30*qu,qu); break;
+            case 4:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Maskaban               50 ", 50*qu,qu); break;
+            case 5:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Upma                   100", 100*qu,qu); break;
+            case 6:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Idli                   80 ", 80*qu,qu); break; // Mismatch in price in original code
+            case 7:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Podi Idli              100", 100*qu,qu); break;
+            case 8:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Khaman                 90 ", 90*qu,qu);break;
+            case 9:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Tea                    50 ", 50*qu,qu); break;
+            case 10:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Sp. Tea                70 ", 70*qu,qu); break;
+            case 11:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Coffee                 90 ", 90*qu,qu); break;
+            case 12:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Turkish Coffee         80 ", 80*qu,qu); break;
+            case 13:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Filter Coffee          100", 100*qu,qu); break;
+            case 14:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Milk                   40 ", 40*qu,qu); break;
             case 15: w = 1; break; // Set flag to exit
             default: cout << "Invalid choice\n"; break;
         }
@@ -657,20 +675,20 @@ class Noon  // Class to handle noon/lunch menu
 {
 public:
 void gujarati(bill &e) // Method for Gujarati food menu
-{
+{ 
     int w = 0;
     while (true)
     {
         // Displaying Gujarati menu
-        cout << "\n1 : Bharela-Ringan Bateka  ::-80\n";
-        cout << "\n2 : Lasaniya Bateta        ::-60\n";
-        cout << "\n3 : Suki Bhaji             ::-30\n"; 
-        cout << "\n4 : Sev-Tameta             ::-280\n";
-        cout << "\n5 : Akhi Dungali           ::-300\n";
-        cout << "\n6 : Undhiyu                ::-80\n"; 
-        cout << "\n7 : Umbadiyu               ::-100\n";
-        cout << "\n8 : Dal-Dhokli             ::-120\n";
-        cout << "\n9 : Vagharello-Rotlo       ::-130\n";
+        cout << "\n1 : Bharela-Ringan Bateka  -> 80\n";
+        cout << "\n2 : Lasaniya Bateta        -> 60\n";
+        cout << "\n3 : Suki Bhaji             -> 30\n"; 
+        cout << "\n4 : Sev-Tameta             -> 50\n";
+        cout << "\n5 : Akhi Dungali           -> 90\n";
+        cout << "\n6 : Undhiyu                -> 120\n"; 
+        cout << "\n7 : Umbadiyu               -> 140\n";
+        cout << "\n8 : Dal-Dhokli             -> 120\n";
+        cout << "\n9 : Vagharello-Rotlo       -> 100\n";
         cout << "\n10 : Quit\n";  // Option to exit
 
         int forSwitch;
@@ -678,15 +696,15 @@ void gujarati(bill &e) // Method for Gujarati food menu
         system("CLS");
         switch (forSwitch) // Handle user selection
         { int qu;
-            case 1:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Bharela-Ringan Bateka  80 ", 80*qu,qu); break;
-            case 2:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Lasaniya Bateta        60 ", 60*qu,qu); break;
-            case 3:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Suki Bhaji             30 ", 30*qu,qu); break;
-            case 4:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Sev-Tameta             280", 280*qu,qu); break;
-            case 5:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Akhi Dungali           300", 300*qu,qu); break;
-            case 6:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Undhiyu                50 ", 50*qu,qu); break;
-            case 7:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Umbadiyu               70 ", 70*qu,qu); break;
-            case 8:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Dal-Dhokli             40 ", 40*qu,qu); break;
-            case 9:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Vagharello-Rotlo       40 ", 40*qu,qu); break;
+            case 1:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Bharela-Ringan Bateka  80 ", 80*qu,qu); break;
+            case 2:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Lasaniya Bateta        60 ", 60*qu,qu); break;
+            case 3:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Suki Bhaji             30 ", 30*qu,qu); break;
+            case 4:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Sev-Tameta             50 ", 80*qu,qu); break;
+            case 5:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Akhi Dungali           90 ", 90*qu,qu); break;
+            case 6:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Undhiyu                120", 120*qu,qu); break;
+            case 7:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Umbadiyu               140", 140*qu,qu); break;
+            case 8:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Dal-Dhokli             120", 120*qu,qu); break;
+            case 9:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Vagharello-Rotlo       100", 100*qu,qu); break;
             case 10: return; // Exit function
             default: cout << "Invalid choice\n"; break;
         }
@@ -699,32 +717,34 @@ void punjabi(bill &e) // Method for Punjabi food menu
     while (true)
     {
         // Displaying Punjabi sabji menu
-        cout << "\n1 : Kaju Masala          ::-100\n";
-        cout << "\n2 : Kaju Tava Masala     ::-129\n";
-        cout << "\n3 : Kaju Kadai           ::-119\n";
-        cout << "\n4 : Paneer Masala        ::-189\n";
-        cout << "\n5 : Paneer Kofta         ::-199\n";
-        cout << "\n6 : Chapati              ::-10\n";
-        cout << "\n7 : Naan                 ::-15\n";
-        cout << "\n8 : Tandoori Roti        ::-20\n";
-        cout << "\n9 : Papad                ::-5 \n";
-        cout << "\n10 : Quit\n";  // Option to exit
+        cout << "\n1 : Kaju Masala          -> 100\n";
+        cout << "\n2 : Kaju Tava Masala     -> 129\n";
+        cout << "\n3 : Kaju Kadai           -> 119\n";
+        cout << "\n4 : Paneer Masala        -> 189\n";
+        cout << "\n5 : Paneer Kofta         -> 199\n";
+        cout << "\n6 : Paneer Tikka Masala  -> 130\n";
+        cout << "\n7 : Paneer Kadhai        -> 130\n";
+        cout << "\n8 : Paneer Palak         -> 160\n";
+        cout << "\n9 : Paneer Mutter        -> 140\n";
+        cout << "\n10: Paneer Tufani        -> 160\n";
+        cout << "\n11 : Quit\n";  // Option to exit
 
         int forSwitch;
         cin >> forSwitch; // Take user input
         system("CLS");
         switch (forSwitch) // Handle user selection
         {int qu;
-            case 1:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Kaju Masala            100", 100*qu,qu); break;
-            case 2:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Kaju Tava Masala       129", 129*qu,qu); break;
-            case 3:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Kaju Kadai             119", 119*qu,qu); break;
-            case 4:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Paneer Masala          189", 189*qu,qu); break;
-            case 5:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Paneer Kofta           199", 199*qu,qu); break;
-            case 6:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Chapati                10 ", 10*qu,qu); break;
-            case 7:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Naan                   15 ", 15*qu,qu); break;
-            case 8:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Tandoori Roti          20 ", 20*qu,qu); break;
-            case 9:cout<<"Enter quntuty:- ";cin>>qu; e.addItem("Papad                  5  ", 5*qu,qu); break;
-            case 10: return; // Exit function
+            case 1:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Kaju Masala            100", 100*qu,qu); break;
+            case 2:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Kaju Tava Masala       129", 129*qu,qu); break;
+            case 3:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Kaju Kadai             119", 119*qu,qu); break;
+            case 4:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Paneer Masala          189", 189*qu,qu); break;
+            case 5:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Paneer Kofta           199", 199*qu,qu); break;
+            case 6:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Paneer Tikka Masala    130", 130*qu,qu); break;
+            case 7:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Paneer Kadhai          130", 130*qu,qu); break;
+            case 8:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Paneer Palak           160", 160*qu,qu); break;
+            case 9:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Paneer Mutter          140", 140*qu,qu); break;
+            case 10:cout<<"Enter quantity:- ";cin>>qu; e.addItem("Paneer Tufani         160", 5*qu,qu); break;
+            case 11: return; // Exit function
             default: cout << "Invalid choice\n"; break;
         }
     }
@@ -735,45 +755,43 @@ void punjabi(bill &e) // Method for Punjabi food menu
                 int w=0;
                 while(1)
                 {
-                  cout<<"\n1 : Fulka Roti       ::-80\n";
-                 cout<<"\n2 : Chapati          ::-60\n";
-                 cout<<"\n3 : BUtter Chapati            ::-30\n"; 
-                 cout<<"\n4 : Naan      ::-280\n";
-                 cout<<"\n5 : Butter Naan      ::-300\n";
-                 cout<<"\n6 : Tandoori         ::-80\n"; 
-                 cout<<"\n7 : Butter Tandoori  ::-100\n";
-                 cout<<"\n8 : Roomali        ::-120\n";
-                 cout<<"\n9 : quit\n";
+                 cout<<"\n1 : Fulka Roti       -> 25\n";
+                 cout<<"\n2 : Chapati          -> 15\n";
+                 cout<<"\n3 : Butter Chapati   -> 20\n"; 
+                 cout<<"\n4 : Naan             -> 40\n";
+                 cout<<"\n5 : Butter Naan      -> 50\n";
+                 cout<<"\n6 : Tandoori         -> 35\n"; 
+                 cout<<"\n7 : Butter Tandoori  -> 45\n";
+                 cout<<"\n8 : Roomali          -> 80\n";
+                 cout<<"\n9 : Papad            -> 30\n";
+                 cout<<"\n10: Masala Papad     -> 50\n";
+                 cout<<"\n11: quit\n";
                  int forSwitch;
                  cin>>forSwitch;
                  system("CLS");
                  switch (forSwitch)
                  {  int qu;
-                     case 1:  cout<<"Enter quntuty:- ";cin>>qu;
-                     e.addItem("Fulka Roti             80 ",80,qu);
+                     case 1:  cout<<"Enter quantity:- ";cin>>qu;e.addItem("Fulka Roti             25 ",25*qu,qu);
                          break;
-                     case 2:  cout<<"Enter quntuty:- ";cin>>qu;
-                     e.addItem("Chapati                60 ",60,qu);
+                     case 2:  cout<<"Enter quantity:- ";cin>>qu;e.addItem("Chapati                15 ",15*qu,qu);
                          break;  
-                     case 3:  cout<<"Enter quntuty:- ";cin>>qu;
-                     e.addItem("BUtter Chapati         30 ",30,qu);
+                     case 3:  cout<<"Enter quantity:- ";cin>>qu;e.addItem("BUtter Chapati         20 ",20*qu,qu);
                          break;
-                     case 4:  cout<<"Enter quntuty:- ";cin>>qu;
-                     e.addItem("Naan                   280",280,qu);
+                     case 4:  cout<<"Enter quantity:- ";cin>>qu;e.addItem("Naan                   40 ",40*qu,qu);
                          break;
-                     case 5:    cout<<"Enter quntuty:- ";cin>>qu;
-                     e.addItem("Butter Naan            300",300,qu);
+                     case 5:  cout<<"Enter quantity:- ";cin>>qu;e.addItem("Butter Naan            50 ",50*qu,qu);
                          break;
-                     case 6:  cout<<"Enter quntuty:- ";cin>>qu;
-                     e.addItem("Tandoori               50 ",50,qu);
+                     case 6:  cout<<"Enter quantity:- ";cin>>qu;e.addItem("Tandoori               35 ",35*qu,qu);
                          break;
-                     case 7:  cout<<"Enter quntuty:- ";cin>>qu;
-                     e.addItem("Butter Tandoori        70 ",70,qu);
+                     case 7:  cout<<"Enter quantity:- ";cin>>qu;e.addItem("Butter Tandoori        45 ",45*qu,qu);
                          break;
-                     case 8:     cout<<"Enter quntuty:- ";cin>>qu;
-                     e.addItem("Roomali                40 ",40,qu);
+                     case 8:  cout<<"Enter quantity:- ";cin>>qu;e.addItem("Roomali                80 ",80*qu,qu);
                          break;
-                     case 9: w=1;
+                     case 9:  cout<<"Enter quantity:- ";cin>>qu;e.addItem("Papad                  30 ",30*qu,qu);
+                         break;
+                     case 10: cout<<"Enter quantity:- ";cin>>qu;e.addItem("Masala papad           50 ",50*qu,qu);
+                         break;
+                     case 11: w=1;
                          break;
                          default:cout<<"invalid choice";
                          break;
@@ -799,7 +817,7 @@ void noon(){
     while (true)
     {
         int EXIt=0;
-        cout<<"welcome to jc's hotel"<<endl;
+        cout<<"welcome to JC's hotel"<<endl;
 
         cout<<"1. Take order"<<endl;
         cout<<"2. Bill"<<endl;
@@ -847,8 +865,8 @@ void noon(){
                 cout << "\n1 : Gujarati\n";
                 cout << "\n2 : Punjabi\n";
                 cout << "\n3 : Roti\n";
-                cout << "\n4 : Gujarati Thali       :: 200rs \n";
-                cout << "\n5 : Punjabi Thali        :: 250rs\n";
+                cout << "\n4 : Gujarati Thali       -> 200rs \n";
+                cout << "\n5 : Punjabi Thali        -> 250rs\n";
                 cout << "\n6 : Quit\n";
                 cin>>forManuSelection;
                 switch (forManuSelection)
@@ -957,7 +975,7 @@ void noon(){
         {
             case 1: exit(0);
 
-            case 2: cout<<"Okayyy!!"<<endl;
+            case 2: cout<<"Okay!!"<<endl;
             continue;
         }
 
@@ -1003,7 +1021,7 @@ void mornin()
     while (true) // Infinite loop to keep the menu running
     {
         int EXIt = 0; // Control flag to exit inner loops
-        cout << "welcome to jc's hotel" << endl;
+        cout << "Welcome to JC's Hotel" << endl;
 
         // Display menu options
         cout << "1. Take order" << endl;
@@ -1107,7 +1125,7 @@ void mornin()
             case 1:
                 exit(0); // Exit the program
             case 2:
-                cout << "Okayyy!!" << endl;
+                cout << "Okay!!" << endl;
                 continue; // Return to menu
             }
             break;
@@ -1377,6 +1395,3 @@ startUp();
 
 
 
-// {
-//     hello i am chelu 
-// }
